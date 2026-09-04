@@ -37,7 +37,7 @@ c3.metric("Net Gain (£)", f"{net_gain:.2f}")
 
 c4.metric(
 
-"Weighted Wins AVG",
+"Best Weighted Wins AVG",
 
 rank_summary_df.sort_values(
 
