@@ -15,7 +15,7 @@ st.set_page_config(
 
 # ----------------------------
 
-st.title("⚽ Family Bet Builder Dashboard")
+st.title("⚽ Simpson Coupon Builder Dashboard")
 
 
 
@@ -128,7 +128,21 @@ with tab2:
     overall_summary["Date"] = pd.to_datetime(
         overall_summary["Date"],
         dayfirst=True
+    ).dt.date
+
+    overall_summary_adj = overall_summary.copy()
+
+    overall_summary_adj['Win Percentage'] = (overall_summary_adj['win_count'] * 100).astype(str) +"%"
+
+    st.dataframe(
+        overall_summary_adj.drop(columns=["win_count"]).style.format({
+            "weekly_odds": "{:.1f}",
+        }),
+        hide_index = True,
+        use_container_width=True
     )
+
+
 
 
     fig = px.line(
@@ -141,20 +155,20 @@ with tab2:
 
 
 
-    st.plotly_chart(fig, use_container_width=True)
+    #st.plotly_chart(fig, use_container_width=True)
 
 
 
-    fig2 = px.bar(
-        overall_summary,
-        x="Date",
-        y="weekly_odds",
-        title="Combined Weekly Odds"
-    )
+    #fig2 = px.bar(
+    #    overall_summary,
+    #    x="Date",
+    #    y="weekly_odds",
+    #    title="Combined Weekly Odds"
+    #)
 
 
 
-    st.plotly_chart(fig2, use_container_width=True)
+    #st.plotly_chart(fig2, use_container_width=True)
 
 # ============================
 # Raw Data
