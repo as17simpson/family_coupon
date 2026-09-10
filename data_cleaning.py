@@ -29,8 +29,11 @@ rank_summary_df['weighted_wins_avg'] = rank_summary_df['weighted_wins']/rank_sum
 
 overall_summary = df.groupby("Date").agg(
     win_count=('Win', lambda x: (x=="Yes").sum()/((x=="No").sum()+ (x=="Yes").sum())),
-    weekly_odds=("Odds", "prod")
+    weekly_odds=("Odds", "prod"),
+    players=("Person", "count")
     ).reset_index()
+
+overall_summary['potential prize money (£)'] = round(overall_summary['weekly_odds']*(overall_summary['players']*3), 2)
 
 wins = len(overall_summary[overall_summary['win_count']==1])
 
