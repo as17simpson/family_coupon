@@ -1,25 +1,30 @@
-﻿Date,Person,Odds,Win,Team, bet_boost
-15/08/2026,Spin,1.69,Yes,Bradford,1
-15/08/2026,Rambo,3.03,No,Wigan,1
-15/08/2026,Beth,1.99,No,Norwich,1
-15/08/2026,Grizz,1.42,Yes,Middlesborogh,1
-15/08/2026,Zed,1.64,Yes,Huddersfield,1
-22/08/2026,Spin,1.67,Yes,Ross County,1
-22/08/2026,Rambo,2.10,No,Wigan,1
-22/08/2026,Beth,1.53,No,Leicester,1
-22/08/2026,Grizz,2.50,No,Rotherham,1
-22/08/2026,Zed,1.33,No,West Ham,1
-29/08/2026,Spin,1.29,No,Partick Thistle,1
-29/08/2026,Rambo,1.85,Yes,Walsall,1
-29/08/2026,Beth,1.67,Yes,York City,1
-29/08/2026,Grizz,1.85,Yes,Sheffield Wednesday,1
-29/08/2026,Zed,2.40,No,Bolton,1
-05/09/2026,Spin,1.4,Yes,West Ham,1
-05/09/2026,Rambo,2.00,No,Burnley,1
-05/09/2026,Beth,1.69,No,Huddersfield,1
-05/09/2026,Grizz,1.77,No,Aberdeen,1
-05/09/2026,Zed,1.74,Yes,Bristol Rovers,1
-09/09/2026,Spin,1.65,Yes,Arsenal,1.1
-09/09/2026,Rambo,1.91,Yes,Chelsea,1.1
-09/09/2026,Beth,1.74,Yes,Sporting Lisbon,1.1
-09/09/2026,Grizz,1.39,Yes,Celtic,1.1
+﻿Date,Person,Odds,Win,Team
+15/08/2026,Spin,1.69,Yes,Bradford
+15/08/2026,Rambo,3.03,No,Wigan
+15/08/2026,Beth,1.99,No,Norwich
+15/08/2026,Grizz,1.42,Yes,Middlesborogh
+15/08/2026,Zed,1.64,Yes,Huddersfield
+22/08/2026,Spin,1.67,Yes,Ross County
+22/08/2026,Rambo,2.10,No,Wigan
+22/08/2026,Beth,1.53,No,Leicester
+22/08/2026,Grizz,2.50,No,Rotherham
+22/08/2026,Zed,1.33,No,West Ham
+29/08/2026,Spin,1.29,No,Partick Thistle
+29/08/2026,Rambo,1.85,Yes,Walsall
+29/08/2026,Beth,1.67,Yes,York City
+29/08/2026,Grizz,1.85,Yes,Sheffield Wednesday
+29/08/2026,Zed,2.40,No,Bolton
+05/09/2026,Spin,1.4,Yes,West Ham
+05/09/2026,Rambo,2.00,No,Burnley
+05/09/2026,Beth,1.69,No,Huddersfield
+05/09/2026,Grizz,1.77,No,Aberdeen
+05/09/2026,Zed,1.74,Yes,Bristol Rovers
+09/09/2026,Spin,1.65,Yes,Arsenal
+09/09/2026,Rambo,1.91,Yes,Chelsea
+09/09/2026,Beth,1.74,Yes,Sporting Lisbon
+09/09/2026,Grizz,1.39,Yes,Celtic
+12/09/2026,Spin,1.66,No,Sheffield Wednesday
+12/09/2026,Rambo,1.54,No,Liverpool
+12/09/2026,Beth,1.66,Yes,Plymouth
+12/09/2026,Grizz,2.77,No,Alloa
+12/09/2026,Zed,2.7,No,Charlton
