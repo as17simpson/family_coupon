@@ -52,7 +52,15 @@ ascending=False
 )
 d1, d2, d3, d4, d5 = st.columns(5)
 
-#d1.metric("Spins winnings (£):", spin_winnings)
+d1.metric("Spin's winnings (£):", spin_winnings)
+
+d2.metric("Rambo's winnings (£):", rambo_winnings)
+
+d3.metric("Beth's winnings (£):", beth_winnings)
+
+d4.metric("Grizz's winnings (£):", grizz_winnings)
+
+d5.metric("Zed's winnings (£):", zed_winnings)
 
 # ----------------------------
 

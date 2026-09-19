@@ -43,18 +43,21 @@ win_perc = wins/len(overall_summary) * 100
 in_pot = (overall_summary[overall_summary['win_count']==1]['potential prize money (£)']).sum()
 
 net_gain = in_pot - len(df)*3
-#net_gain = (overall_summary[overall_summary['win_count']==1]['weekly_odds']*15).sum()-15*len(overall_summary)
+
 
 def winnings_per_person(person, win_dates):
     winnings_total = 0
     for date in win_dates:
+        print(list(df[df['Date'] == (date)]['Person']))
+        print(date)
         if person in list(df[df['Date'] == (date)]['Person']):
-            winnings_total += overall_summary[overall_summary.index == win_dates[0]]["Winning per person"]
-    print(float(winnings_total))
-    return float(winnings_total)
+            winnings_total += overall_summary[overall_summary["Date"] == win_dates[0]]["Winning per person"]
+    print(winnings_total)
+    return round(winnings_total, 2)
 
-print(overall_summary)
-win_dates = list(overall_summary[overall_summary['win_count']==1].index)
+
+win_dates = list(overall_summary[overall_summary['win_count']==1]['Date'])
+
 
 spin_winnings = winnings_per_person("Spin", win_dates=win_dates)
 rambo_winnings = winnings_per_person("Rambo", win_dates=win_dates)
