@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from data_cleaning import rank_summary_df, overall_summary, wins, win_perc, net_gain, df
+from data_cleaning import rank_summary_df, overall_summary, wins, win_perc, net_gain, df, in_pot, spin_winnings, rambo_winnings, beth_winnings, grizz_winnings, zed_winnings
 
 st.set_page_config(
     page_title="Family Coupon",
@@ -25,7 +25,7 @@ st.title("⚽ Simpson Coupon Builder Dashboard")
 
 # ----------------------------
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5 = st.columns(5)
 
 
 
@@ -33,9 +33,11 @@ c1.metric("Weeks Played", len(overall_summary))
 
 c2.metric("Perfect Weeks %", f"{win_perc:.1f}%")
 
-c3.metric("Net Gain (£)", f"{net_gain:.2f}")
+c3.metric("In the pot (£)", f"{in_pot:.2f}")
 
-c4.metric(
+c4.metric("Net Gain (£)", f"{net_gain:.2f}")
+
+c5.metric(
 
 "Best Weighted Wins AVG",
 
@@ -48,8 +50,9 @@ ascending=False
 ).iloc[0]["Person"]
 
 )
+d1, d2, d3, d4, d5 = st.columns(5)
 
-
+#d1.metric("Spins winnings (£):", spin_winnings)
 
 # ----------------------------
 
@@ -121,6 +124,12 @@ with tab1:
 
 # ============================
 
+def highlight_100(row):
+    if row["Win Percentage"] == "100.0%":
+        return ["background-color: lightgreen"]*len(row)
+    return [""]*len(row)
+
+
 with tab2:
 
     st.subheader("Weekly Results")
@@ -134,10 +143,13 @@ with tab2:
 
     overall_summary_adj['Win Percentage'] = (overall_summary_adj['win_count'] * 100).astype(str) +"%"
 
-    st.dataframe(
-        overall_summary_adj.drop(columns=["win_count"]).style.format({
+    overall_summary_adj = overall_summary_adj.drop(columns=["win_count"]).style.format({
             "weekly_odds": "{:.1f}",
-        }),
+        }).apply(highlight_100, axis=1)
+
+
+    st.dataframe(
+        overall_summary_adj,
         hide_index = True,
         use_container_width=True
     )
