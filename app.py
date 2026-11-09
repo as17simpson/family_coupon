@@ -153,6 +153,9 @@ with tab2:
 
     overall_summary_adj = overall_summary_adj.drop(columns=["win_count"]).style.format({
             "weekly_odds": "{:.1f}",
+            "potential prize money (£)": "{:.2f}",
+            "actual return (£)": "{:.2f}",
+            "Winning per person": "{:.2f}",
         }).apply(highlight_100, axis=1)
 
 

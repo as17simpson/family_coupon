@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 df = pd.read_csv("./data/data.csv")
 
@@ -30,17 +31,36 @@ rank_summary_df['weighted_wins_avg'] = rank_summary_df['weighted_wins']/rank_sum
 overall_summary = df.groupby("Date").agg(
     win_count=('Win', lambda x: (x=="Yes").sum()/((x=="No").sum()+ (x=="Yes").sum())),
     weekly_odds=("Odds", "prod"),
-    players=("Person", "count")
+    players=("Person", "count"),
+    cash_out=("CashOut", lambda x: (x == "Yes").any()),
+    cash_out_amount=("CashOutAmount", "max")
     ).reset_index()
 
 overall_summary['potential prize money (£)'] = round(overall_summary['weekly_odds']*(overall_summary['players']*3), 2)
-overall_summary["Winning per person"] = overall_summary["potential prize money (£)"]/overall_summary['players']
+
+conditions = [
+    overall_summary["cash_out"],          # checked first
+    overall_summary["win_count"] == 1,
+]
+
+overall_summary["outcome"] = np.select(conditions, ["Cashed Out", "Won"], default="Lost")
+
+overall_summary["actual return (£)"] = np.select(
+    conditions,
+    [overall_summary["cash_out_amount"], overall_summary["potential prize money (£)"]],
+    default=0,
+)
+
+overall_summary["Winning per person"] = overall_summary["actual return (£)"] / overall_summary["players"]
+
+#overall_summary["Winning per person"] = overall_summary["potential prize money (£)"]/overall_summary['players']
 
 wins = len(overall_summary[overall_summary['win_count']==1])
 
 win_perc = wins/len(overall_summary) * 100
 
-in_pot = (overall_summary[overall_summary['win_count']==1]['potential prize money (£)']).sum()
+#in_pot = (overall_summary[overall_summary['win_count']==1]['potential prize money (£)']).sum()
+in_pot = overall_summary["actual return (£)"].sum()
 
 net_gain = in_pot - len(df)*3
 
@@ -51,7 +71,8 @@ def winnings_per_person(person, win_dates):
         print(list(df[df['Date'] == (date)]['Person']))
         print(date)
         if person in list(df[df['Date'] == (date)]['Person']):
-            winnings_total += overall_summary[overall_summary["Date"] == win_dates[0]]["Winning per person"]
+            print(overall_summary[overall_summary["Date"] == date]["Winning per person"].iloc[0])
+            winnings_total += overall_summary[overall_summary["Date"] == date]["Winning per person"].iloc[0]
     print(winnings_total)
     return round(winnings_total, 2)
 
