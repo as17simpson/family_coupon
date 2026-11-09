@@ -147,7 +147,7 @@ with tab2:
         dayfirst=True
     ).dt.date
 
-    overall_summary_adj = overall_summary.copy()
+    overall_summary_adj = overall_summary.copy().sort_values(by=["Date"])
 
     overall_summary_adj['Win Percentage'] = (overall_summary_adj['win_count'] * 100).astype(str) +"%"
 

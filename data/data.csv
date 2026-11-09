@@ -1,8 +1,8 @@
-﻿Date,Person,Odds,Win,Team
+﻿Date,Person,Odds,Win,Team,CashOut,CashOutAmount
 15/08/2026,Spin,1.69,Yes,Bradford
 15/08/2026,Rambo,3.03,No,Wigan
 15/08/2026,Beth,1.99,No,Norwich
-15/08/2026,Grizz,1.42,Yes,Middlesborogh
+15/08/2026,Grizz,1.42,Yes,Middlesborough
 15/08/2026,Zed,1.64,Yes,Huddersfield
 22/08/2026,Spin,1.67,Yes,Ross County
 22/08/2026,Rambo,2.10,No,Wigan
@@ -38,3 +38,13 @@
 17/10/2026,Beth,1.79,No,Grimsby
 17/10/2026,Grizz,1.36,Yes,Salford
 17/10/2026,Zed,1.23,Yes,Man City
+31/10/2026,Spin,1.25,Yes,Stockport,Yes,80.68
+31/10/2026,Rambo,1.571,Yes,Wycombe,Yes,80.68
+31/10/2026,Beth,1.571,Yes,Port Vale,80.68
+31/10/2026,Grizz,1.2,Yes,Middlesborough,80.68
+31/10/2026,Zed,1.571,Yes,Wolves,80.68
+07/11/2026,Spin,1.571,No,Hamilton
+07/11/2026,Rambo,1.111,Yes,Arsenal
+07/11/2026,Beth,1.25,Yes,Colchester
+07/11/2026,Grizz,1.2,Yes,Barnsley
+07/11/2026,Zed,1.4,No,Middlesborough

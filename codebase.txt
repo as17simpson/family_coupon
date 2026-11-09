@@ -1,0 +1,195 @@
+Directory structure:
+└── family_coupon/
+    ├── README.md
+    ├── app.py
+    ├── data_cleaning.py
+    ├── requirements.txt
+    ├── test.py
+    ├── data/
+    │   └── data.csv
+    └── .devcontainer/
+        └── devcontainer.json
+
+================================================
+FILE: README.md
+================================================
+# family_coupon
+
+
+================================================
+FILE: app.py
+================================================
+Error reading file with 'cp1252': 'charmap' codec can't decode byte 0x8f in position 1354: character maps to <undefined>
+
+
+================================================
+FILE: data_cleaning.py
+================================================
+import pandas as pd
+
+df = pd.read_csv("./data/data.csv")
+
+losers_per_date = df.groupby("Date")["Win"].apply(
+    lambda x: (x == "No").sum()
+)
+
+# Dates with exactly one loser
+single_loser_dates = losers_per_date[losers_per_date == 1].index
+
+# Flag the person if they were the only loser that day
+df["only_loser"] = (
+    (df["Date"].isin(single_loser_dates)) &
+    (df["Win"] == "No")
+).astype(int)
+
+rank_summary_df = df.groupby("Person").agg(
+    win_percentage=("Win", lambda x: (x == "Yes").mean()*100),
+    average_odds=("Odds", "mean"),
+    rounds_played=("Person", "count"),
+    weighted_wins = ("Odds", lambda x: x[df.loc[x.index, "Win"] == "Yes"].sum()),
+    only_loser = ("only_loser", "sum")
+).reset_index()
+
+rank_summary_df['exp win perc'] = (1/rank_summary_df['average_odds'])*100
+rank_summary_df['weighted_wins_avg'] = rank_summary_df['weighted_wins']/rank_summary_df['rounds_played'] 
+
+
+overall_summary = df.groupby("Date").agg(
+    win_count=('Win', lambda x: (x=="Yes").sum()/((x=="No").sum()+ (x=="Yes").sum())),
+    weekly_odds=("Odds", "prod"),
+    players=("Person", "count")
+    ).reset_index()
+
+overall_summary['potential prize money (Â£)'] = round(overall_summary['weekly_odds']*(overall_summary['players']*3), 2)
+overall_summary["Winning per person"] = overall_summary["potential prize money (Â£)"]/overall_summary['players']
+
+wins = len(overall_summary[overall_summary['win_count']==1])
+
+win_perc = wins/len(overall_summary) * 100
+
+in_pot = (overall_summary[overall_summary['win_count']==1]['potential prize money (Â£)']).sum()
+
+net_gain = in_pot - len(df)*3
+
+
+def winnings_per_person(person, win_dates):
+    winnings_total = 0
+    for date in win_dates:
+        print(list(df[df['Date'] == (date)]['Person']))
+        print(date)
+        if person in list(df[df['Date'] == (date)]['Person']):
+            winnings_total += overall_summary[overall_summary["Date"] == win_dates[0]]["Winning per person"]
+    print(winnings_total)
+    return round(winnings_total, 2)
+
+
+win_dates = list(overall_summary[overall_summary['win_count']==1]['Date'])
+
+
+spin_winnings = winnings_per_person("Spin", win_dates=win_dates)
+rambo_winnings = winnings_per_person("Rambo", win_dates=win_dates)
+beth_winnings = winnings_per_person("Beth", win_dates=win_dates)
+grizz_winnings = winnings_per_person("Grizz", win_dates=win_dates)
+zed_winnings = winnings_per_person("Zed", win_dates=win_dates)
+
+
+================================================
+FILE: requirements.txt
+================================================
+streamlit
+pandas
+plotly
+
+
+================================================
+FILE: test.py
+================================================
+import pandas as pd
+
+df = pd.read_csv("./data/data.csv")
+print(df)
+
+
+================================================
+FILE: data/data.csv
+================================================
+ï»¿Date,Person,Odds,Win,Team
+15/08/2026,Spin,1.69,Yes,Bradford
+15/08/2026,Rambo,3.03,No,Wigan
+15/08/2026,Beth,1.99,No,Norwich
+15/08/2026,Grizz,1.42,Yes,Middlesborogh
+15/08/2026,Zed,1.64,Yes,Huddersfield
+22/08/2026,Spin,1.67,Yes,Ross County
+22/08/2026,Rambo,2.10,No,Wigan
+22/08/2026,Beth,1.53,No,Leicester
+22/08/2026,Grizz,2.50,No,Rotherham
+22/08/2026,Zed,1.33,No,West Ham
+29/08/2026,Spin,1.29,No,Partick Thistle
+29/08/2026,Rambo,1.85,Yes,Walsall
+29/08/2026,Beth,1.67,Yes,York City
+29/08/2026,Grizz,1.85,Yes,Sheffield Wednesday
+29/08/2026,Zed,2.40,No,Bolton
+05/09/2026,Spin,1.4,Yes,West Ham
+05/09/2026,Rambo,2.00,No,Burnley
+05/09/2026,Beth,1.69,No,Huddersfield
+05/09/2026,Grizz,1.77,No,Aberdeen
+05/09/2026,Zed,1.74,Yes,Bristol Rovers
+09/09/2026,Spin,1.65,Yes,Arsenal
+09/09/2026,Rambo,1.91,Yes,Chelsea
+09/09/2026,Beth,1.74,Yes,Sporting Lisbon
+09/09/2026,Grizz,1.39,Yes,Celtic
+12/09/2026,Spin,1.66,No,Sheffield Wednesday
+12/09/2026,Rambo,1.54,No,Liverpool
+12/09/2026,Beth,1.66,Yes,Plymouth
+12/09/2026,Grizz,2.77,No,Alloa
+12/09/2026,Zed,2.7,No,Charlton
+19/09/2026,Spin,1.54,Yes,Dunfermline
+19/09/2026,Rambo,1.8,Yes,Everton
+19/09/2026,Beth,1.54,Yes,Salford
+19/09/2026,Grizz,1.69,No,Huddersfield
+19/09/2026,Zed,2.95,No,Sheffield Wednesday
+17/10/2026,Spin,1.23,Yes,Stockport
+17/10/2026,Rambo,1.53,No,Chorley
+17/10/2026,Beth,1.79,No,Grimsby
+17/10/2026,Grizz,1.36,Yes,Salford
+17/10/2026,Zed,1.23,Yes,Man City
+
+
+
+================================================
+FILE: .devcontainer/devcontainer.json
+================================================
+{
+  "name": "Python 3",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "README.md",
+        "app.py"
+      ]
+    },
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requirements.txt; pip3 install --user streamlit; echo 'âœ… Packages installed and Requirements met'",
+  "postAttachCommand": {
+    "server": "streamlit run app.py --server.enableCORS false --server.enableXsrfProtection false"
+  },
+  "portsAttributes": {
+    "8501": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "forwardPorts": [
+    8501
+  ]
+}
+
